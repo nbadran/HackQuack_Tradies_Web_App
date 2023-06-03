@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model client {
+  id                Int               @id @default(autoincrement())
+  first_name        String?           @db.VarChar(255)
+  last_name         String?           @db.VarChar(255)
+  email             String?           @db.VarChar(255)
+  phone             String?           @db.VarChar(255)
+  password          String?           @db.VarChar(255)
+  suburb            String?           @db.VarChar(255)
+  address           String?           @db.VarChar(255)
+  state             String?           @db.VarChar(255)
+  postcode          String?           @db.VarChar(255)
+  card_number       String?           @db.VarChar(255)
+  card_security_num String?           @db.VarChar(255)
+  card_expiry_date  DateTime?         @db.Date
+  membership        membership[]
+  rating            rating[]
+  service_request   service_request[]
+}
+
+model membership {
+  id              Int           @id @default(autoincrement())
+  start_date      DateTime?     @db.Date
+  due_date        DateTime?     @db.Date
+  cost            Float?
+  client_id       Int?
+  professional_id Int?
+  client          client?       @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "membership_ibfk_1")
+  professional    professional? @relation(fields: [professional_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "membership_ibfk_2")
+
+  @@index([client_id], map: "client_id")
+  @@index([professional_id], map: "professional_id")
+}
+
+model professional {
+  id                           Int                            @id @default(autoincrement())
+  first_name                   String?                        @db.VarChar(255)
+  last_name                    String?                        @db.VarChar(255)
+  email                        String?                        @db.VarChar(255)
+  abn                          String?                        @db.VarChar(255)
+  password                     String?                        @db.VarChar(255)
+  address                      String?                        @db.VarChar(255)
+  suburb                       String?                        @db.VarChar(255)
+  tfn                          String?                        @db.VarChar(255)
+  state                        String?                        @db.VarChar(255)
+  postcode                     String?                        @db.VarChar(255)
+  card_number                  String?                        @db.VarChar(255)
+  card_security_num            String?                        @db.VarChar(255)
+  card_expiry_date             DateTime?                      @db.Date
+  service_type_id              Int?
+  membership                   membership[]
+  service_type                 service_type?                  @relation(fields: [service_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "professional_ibfk_1")
+  professional_service_request professional_service_request[]
+  failed_update_count          Int                            @default(0)
+  failed_update_timestamp      DateTime?                      @default(now())
+
+  @@index([service_type_id], map: "service_type_id")
+}
+
+model professional_service_request {
+  id                 Int              @id @default(autoincrement())
+  acceptance         Int?
+  cost               Float?
+  service_request_id Int?
+  professional_id    Int?
+  service_request    service_request? @relation(fields: [service_request_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "professional_service_request_ibfk_1")
+  professional       professional?    @relation(fields: [professional_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "professional_service_request_ibfk_2")
+  transaction        transaction[]
+
+  @@index([professional_id], map: "professional_id")
+  @@index([service_request_id], map: "service_request_id")
+}
+
+model rating {
+  id             Int          @id @default(autoincrement())
+  rating         Float?       @db.Float
+  review         String?      @db.VarChar(1000)
+  client_id      Int?
+  transaction_id Int?
+  client         client?      @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_1")
+  transaction    transaction? @relation(fields: [transaction_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_2")
+
+  @@index([client_id], map: "client_id")
+  @@index([transaction_id], map: "transaction_id")
+}
+
+model service_request {
+  id                           Int                            @id @default(autoincrement())
+  request_time                 DateTime?                      @db.DateTime(0)
+  request_title                String?                        @db.VarChar(255)
+  description                  String?                        @db.VarChar(1000)
+  client_id                    Int?
+  service_type_id              Int?
+  professional_service_request professional_service_request[]
+  client                       client?                        @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "service_request_ibfk_1")
+  service_type                 service_type?                  @relation(fields: [service_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "service_request_ibfk_2")
+
+  @@index([client_id], map: "client_id")
+  @@index([service_type_id], map: "service_type_id")
+}
+
+model service_type {
+  id                Int               @id @default(autoincrement())
+  service_type_name String?           @db.VarChar(255)
+  professional      professional[]
+  service_request   service_request[]
+}
+
+model transaction {
+  id                           Int                           @id @default(autoincrement())
+  payment_time                 DateTime?                     @db.DateTime(0)
+  professional_request_id      Int?
+  rating                       rating[]
+  professional_service_request professional_service_request? @relation(fields: [professional_request_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transaction_ibfk_3")
+
+  @@index([professional_request_id], map: "professional_request_id")
+}

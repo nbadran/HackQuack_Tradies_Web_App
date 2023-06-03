@@ -1,0 +1,21 @@
+$theme-colors: (
+    "black": #000000,
+
+    "primary": #3508CD,
+    "cancel": #666666,
+    
+    "professional": #932191,
+    "professional-tab": #E07AFF,
+    "professional-button": #951ABE,
+    
+    "customer": #C7594B,
+    "customer-tab": #F6D110,
+    "customer-button": #FF9300,
+    
+    "warning": red,
+    "info": teal,
+    
+    "background": #FEF7FF
+) !default;
+
+@import 'node_modules/bootstrap/scss/bootstrap';
