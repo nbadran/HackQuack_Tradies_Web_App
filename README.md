@@ -3,15 +3,15 @@
 
 ## Development Details
 
-```
+
 Programming Languages
-```
+---------------------
 Front End: React, CSS
 Back End: Javascript
 
-```
+
 Development Environment
-```
+---------------------
 Front End: ReactJs, Bootstrap
 Back End: Flask, SQLAlchemy
 
