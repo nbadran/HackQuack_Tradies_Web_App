@@ -4,16 +4,14 @@
 ## Development Details
 
 
-Programming Languages
----------------------
+Programming Languages:
 
 Front End: React, CSS
 
 Back End: Javascript
 
 
-Development Environment
------------------------
+Development Environment:
 
 Front End: ReactJs, Bootstrap
 
