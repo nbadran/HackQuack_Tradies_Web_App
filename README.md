@@ -10,13 +10,13 @@ Programming Languages:
 React, CSS
 
 ```Back End:```
-Back End: Javascript
+Javascript
 
 
 Development Environment:
 
 ```Front End:```
-Front End: ReactJs, Bootstrap
+ReactJs, Bootstrap
 
 ```Back End:```
 Flask, SQLAlchemy
