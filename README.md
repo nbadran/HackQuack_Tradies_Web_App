@@ -6,16 +6,20 @@
 
 Programming Languages:
 
-Front End: React, CSS
+```Front End:```
+React, CSS
 
+```Back End:```
 Back End: Javascript
 
 
 Development Environment:
 
+```Front End:```
 Front End: ReactJs, Bootstrap
 
-Back End: Flask, SQLAlchemy
+```Back End:```
+Flask, SQLAlchemy
 
 ## Requirements
 
